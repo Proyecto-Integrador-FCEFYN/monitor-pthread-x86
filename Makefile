@@ -3,7 +3,7 @@ EXEC = ./bin/monitor
 CFLAGS = -pthread
 
 main.o:	
-	mkdir bin
+	mkdir -p bin
 	$(CC) -c main.c -o ./bin/main.o $(CFLAGS)
 
 build: main.o
