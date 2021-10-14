@@ -2,6 +2,10 @@ CC = gcc
 EXEC = ./bin/monitor
 CFLAGS = -pthread
 
+all:
+	mkdir -p bin
+	$(CC) monitor_main.c politica.c -o ./bin/politica -g
+
 main.o:	
 	mkdir -p bin
 	$(CC) -c main.c -o ./bin/main.o $(CFLAGS)
