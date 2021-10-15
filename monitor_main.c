@@ -1,6 +1,8 @@
 
 #include <stdio.h>
 #include "politica.h"
+//#include "procesador_petri.h"
+#include "lector_de_matriz.h"
 
 /// Esta funcion por ahora la usemos para probar los distintos metodos que
 /// vayamos implementando.
@@ -8,6 +10,8 @@
 
 int main()
 {
+    // PRUEBAS DE POLITICA
+
     politica_t politica;
     politica_init(&politica);
 
@@ -23,5 +27,16 @@ int main()
     politica.modificar_prioridad(&politica,3);
 
     printf("%i",politica.get_numero_elementos(&politica));
+
+    // PRUEBAS DE LECTOR DE MATRIZ
+
+    lector_de_matriz_t lector;
+
+    lector_de_matriz_init(&lector);
+
+    lector.leer(&lector, "holis", "chauchis");
+
+
+
     return 0;
 }

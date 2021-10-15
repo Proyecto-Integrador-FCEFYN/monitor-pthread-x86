@@ -4,7 +4,7 @@ CFLAGS = -pthread
 
 all:
 	mkdir -p bin
-	$(CC) monitor_main.c procesador_petri.c politica.c -o ./bin/politica -g
+	$(CC) monitor_main.c procesador_petri.c lector_de_matriz.c politica.c  -o ./bin/politica -g
 
 main.o:	
 	mkdir -p bin
