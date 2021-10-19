@@ -1,6 +1,6 @@
 #include "procesador_petri.h"
 
-static int matriz_estado_aux[PLAZAS];
+static long int matriz_estado_aux[PLAZAS];
 
 static int petri_solicitud_disparo(procesador_petri_t *petri, int t_disparar)
 {
@@ -32,4 +32,11 @@ void procesador_de_petri_init(procesador_petri_t *petri)
     petri->plazas = PLAZAS;
     petri->solicitud_disparo = petri_solicitud_disparo;
     petri->disparar = petri_disparar;
+
+    lector_de_matriz_t lector;
+    lector_de_matriz_init(&lector,
+                          "../redes-de-petri/productor-consumidor/incidencia-prod-cons.csv",
+                          "../redes-de-petri/productor-consumidor/marcado-prod-cons.csv");
+    lector.leer(&lector, petri->matriz_estado, petri->matriz_incidencia);
+
 }
