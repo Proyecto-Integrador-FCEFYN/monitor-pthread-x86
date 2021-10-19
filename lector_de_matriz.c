@@ -23,7 +23,9 @@ static void leer_linea(char arreglo[BUFFER_LINEA], long int marcado[PLAZAS])
     }
 }
 
-void lector_de_matriz_leer(lector_de_matriz_t *lector)
+void lector_de_matriz_leer(lector_de_matriz_t *lector,
+                           long int matriz_estado[PLAZAS],
+                           long int matriz_incidencia[PLAZAS][TRANSICIONES])
 
 {
     char arreglo[BUFFER_LINEA]; //entrada
@@ -32,20 +34,20 @@ void lector_de_matriz_leer(lector_de_matriz_t *lector)
     fgets(arreglo, sizeof arreglo, fptr);
     fclose(fptr);
 
-    long int vector[PLAZAS]; //salida
+//    long int vector[PLAZAS]; //salida
 
     printf("\nVector de estado leido");
-    leer_linea(arreglo, vector);
+    leer_linea(arreglo, matriz_estado);
 
     printf("\nMatriz leida, de a filas");
     char matriz_char[PLAZAS][BUFFER_LINEA]; // entrada
-    long int matriz_entero[PLAZAS][TRANSICIONES]; // salida
+//    long int matriz_entero[PLAZAS][TRANSICIONES]; // salida
 
     fptr = fopen(lector->path_matriz_incidencia,"r");
 
     for (int i = 0; i < PLAZAS; ++i) {
         fgets(matriz_char[i], sizeof matriz_char[0], fptr);
-        leer_linea((char *) matriz_char[i], (long *) matriz_entero[i]);
+        leer_linea(matriz_char[i],  matriz_incidencia[i]);
     }
 }
 

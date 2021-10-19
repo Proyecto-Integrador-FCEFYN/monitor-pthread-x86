@@ -26,7 +26,9 @@ struct lector_de_matriz_t
     long int matriz_estado[BUFFER_LINEA];
     char *path_matriz_incidencia;
     char *path_matriz_estado;
-    void (*leer)(lector_de_matriz_t *lector);
+    void (*leer)(lector_de_matriz_t *lector,
+                long int matriz_estado[PLAZAS],
+                long int matriz_incidencia[PLAZAS][TRANSICIONES]);
 };
 
 void lector_de_matriz_init(lector_de_matriz_t *lector,
