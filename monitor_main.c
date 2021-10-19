@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include "politica.h"
 //#include "procesador_petri.h"
-#include "lector_de_matriz.h"
+//#include "lector_de_matriz.h"
+#include "procesador_petri.h"
 
 /// Esta funcion por ahora la usemos para probar los distintos metodos que
 /// vayamos implementando.
@@ -30,13 +31,16 @@ int main()
 
     // PRUEBAS DE LECTOR DE MATRIZ
 
-    lector_de_matriz_t lector;
+//    lector_de_matriz_t lector;
 
-    lector_de_matriz_init(&lector,
-                          "/home/agustin/esp/pthread-monitor-ia32/redes-de-petri/productor-consumidor/incidencia-prod-cons.csv",
-                          "/home/agustin/esp/pthread-monitor-ia32/redes-de-petri/productor-consumidor/marcado-prod-cons.csv");
+//    lector_de_matriz_init(&lector,
+//                          "../redes-de-petri/productor-consumidor/incidencia-prod-cons.csv",
+//                          "../redes-de-petri/productor-consumidor/marcado-prod-cons.csv");
 
-    lector.leer(&lector);
+//    lector.leer(&lector);
+procesador_petri_t petri;
+    procesador_de_petri_init(&petri);
+
 
 
 
