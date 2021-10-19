@@ -32,9 +32,11 @@ int main()
 
     lector_de_matriz_t lector;
 
-    lector_de_matriz_init(&lector);
+    lector_de_matriz_init(&lector,
+                          "/home/agustin/esp/pthread-monitor-ia32/redes-de-petri/productor-consumidor/incidencia-prod-cons.csv",
+                          "/home/agustin/esp/pthread-monitor-ia32/redes-de-petri/productor-consumidor/marcado-prod-cons.csv");
 
-    lector.leer(&lector, "holis", "chauchis");
+    lector.leer(&lector);
 
 
 

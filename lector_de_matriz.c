@@ -1,7 +1,7 @@
 //
 // Created by agustin on 14/10/21.
 //
-#define BUFFER_LINEA 3*PLAZAS+1
+
 
 
 #include <string.h>
@@ -11,10 +11,6 @@
 static void leer_linea(char arreglo[BUFFER_LINEA], long int marcado[PLAZAS])
 {
     int i = 0;
-    //char arreglo[BUFFER_LINEA];
-    //    FILE *fptr;
-    //    fptr = fopen("/home/agustin/esp/pthread-monitor-ia32/redes-de-petri/productor-consumidor/marcado-prod-cons.csv","r");
-    //    fgets(arreglo, sizeof arreglo, fptr);
 
     char *p = strtok(arreglo, ",");
 
@@ -25,44 +21,44 @@ static void leer_linea(char arreglo[BUFFER_LINEA], long int marcado[PLAZAS])
         printf("\nEntero es p=%li", marcado[i]);
         ++i;
     }
-
 }
 
-static void leer_matriz(char matriz_caracteres[PLAZAS][TRANSICIONES], long int matriz_enteros[PLAZAS][TRANSICIONES])
-{
+void lector_de_matriz_leer(lector_de_matriz_t *lector)
 
-
-}
-
-void lector_de_matriz_leer(lector_de_matriz_t *lector,
-                           char *path_matriz_incidencia,
-                           char *path_matriz_estado)
 {
     char arreglo[BUFFER_LINEA]; //entrada
     FILE *fptr;
-    fptr = fopen("/home/agustin/esp/pthread-monitor-ia32/redes-de-petri/productor-consumidor/marcado-prod-cons.csv","r");
+    fptr = fopen(lector->path_matriz_estado,"r");
     fgets(arreglo, sizeof arreglo, fptr);
     fclose(fptr);
 
     long int vector[PLAZAS]; //salida
+
+    printf("\nVector de estado leido");
     leer_linea(arreglo, vector);
-    printf("\nhola");
-    long int matriz[PLAZAS][TRANSICIONES];
-    leer_matriz(matriz);
-    printf("\nhola");
 
+    printf("\nMatriz leida, de a filas");
+    char matriz_char[PLAZAS][BUFFER_LINEA]; // entrada
+    long int matriz_entero[PLAZAS][TRANSICIONES]; // salida
 
-    fptr = fopen("/home/agustin/esp/pthread-monitor-ia32/redes-de-petri/productor-consumidor/incidencia-prod-cons.csv","r");
+    fptr = fopen(lector->path_matriz_incidencia,"r");
 
-
-
-
+    for (int i = 0; i < PLAZAS; ++i) {
+        fgets(matriz_char[i], sizeof matriz_char[0], fptr);
+        leer_linea((char *) matriz_char[i], (long *) matriz_entero[i]);
+    }
 }
 
 
-void lector_de_matriz_init(lector_de_matriz_t *lector)
+void lector_de_matriz_init(lector_de_matriz_t *lector,
+                           char *path_matriz_incidencia,
+                           char *path_matriz_estado)
 {
     lector->plazas = PLAZAS;
     lector->transiciones = TRANSICIONES;
+    lector->path_matriz_estado = path_matriz_estado;
+    lector->path_matriz_incidencia = path_matriz_incidencia;
+
     lector->leer = lector_de_matriz_leer;
+
 }

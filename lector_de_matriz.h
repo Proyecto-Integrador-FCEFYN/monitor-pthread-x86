@@ -12,6 +12,7 @@
 #ifndef TRANSICIONES
 #define TRANSICIONES 6
 #endif //TRANSICIONES
+#define BUFFER_LINEA 3*PLAZAS+1
 
 #include <stdio.h>
 
@@ -21,13 +22,15 @@ struct lector_de_matriz_t
 {
     int transiciones;
     int plazas;
-    int matriz_incidencia[PLAZAS][TRANSICIONES];
-    int matriz_estado[PLAZAS];
-    void (*leer)(lector_de_matriz_t *lector,
-                 char *path_matriz_incidencia,
-                 char *path_matriz_estado);
+    long int matriz_incidencia[PLAZAS][BUFFER_LINEA];
+    long int matriz_estado[BUFFER_LINEA];
+    char *path_matriz_incidencia;
+    char *path_matriz_estado;
+    void (*leer)(lector_de_matriz_t *lector);
 };
 
-void lector_de_matriz_init(lector_de_matriz_t *lector);
+void lector_de_matriz_init(lector_de_matriz_t *lector,
+                           char *path_matriz_incidencia,
+                           char *path_matriz_estado);
 
 
