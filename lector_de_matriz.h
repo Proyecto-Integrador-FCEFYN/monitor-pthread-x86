@@ -20,8 +20,6 @@ typedef struct lector_de_matriz_t lector_de_matriz_t;
 
 struct lector_de_matriz_t
 {
-    int transiciones;
-    int plazas;
     long int matriz_incidencia[PLAZAS][BUFFER_LINEA];
     long int matriz_estado[BUFFER_LINEA];
     char *path_matriz_incidencia;

@@ -28,8 +28,6 @@ static int petri_disparar(procesador_petri_t *petri, int disparo)
 
 void procesador_de_petri_init(procesador_petri_t *petri)
 {
-    petri->transiciones = TRANSICIONES;
-    petri->plazas = PLAZAS;
     petri->solicitud_disparo = petri_solicitud_disparo;
     petri->disparar = petri_disparar;
 
@@ -38,5 +36,4 @@ void procesador_de_petri_init(procesador_petri_t *petri)
                           "../redes-de-petri/productor-consumidor/incidencia-prod-cons.csv",
                           "../redes-de-petri/productor-consumidor/marcado-prod-cons.csv");
     lector.leer(&lector, petri->matriz_estado, petri->matriz_incidencia);
-
 }

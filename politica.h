@@ -1,14 +1,17 @@
-#ifdef PETRINET_SIZE
-#define CANT_VAR_COND PETRINET_SIZE
+
+
+#ifdef TRANSICIONES
+#define CANT_VAR_COND TRANSICIONES
 #else 
 #define CANT_VAR_COND 8
+#define TRANSICIONES 6
 #endif
 
 typedef struct politica_t politica_t;
 
 struct politica_t
 {
-    int prioridad[CANT_VAR_COND];
+    int prioridad[TRANSICIONES];
     int element_count;
     void (*add_element)(politica_t *politica, int d);
     int (*get_prioridad)(politica_t *politica, int d);
