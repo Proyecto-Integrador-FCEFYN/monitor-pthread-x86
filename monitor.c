@@ -12,12 +12,30 @@ void monitor_disparar(monitor_t *monitor, int disparo)
     pthread_mutex_lock(&monitor->entrada);
     while ( !monitor->petri->solicitud_disparo(monitor->petri, disparo) )
     {
+        monitor->var_condicion[disparo].delay(&monitor->var_condicion[disparo]);
+        //try
+        // TODO:ver el tema de los threads
 
+        monitor->petri->disparar(monitor->petri, disparo);
+
+        for (int i = 0; i < TRANSICIONES; ++i)
+        {
+            //int d = monitor->politica.prioridad[i]; // inutil?
+            variable_condicion_t *vc = &monitor->var_condicion[monitor->politica.get_prioridad(&monitor->politica,i)];
+            if (vc->is_empty(vc))
+            {
+                int p = monitor->politica.get_prioridad(&monitor->politica, i);
+                monitor->politica.modificar_prioridad(&monitor->politica, i);
+                monitor->var_condicion[p].resume(&monitor->var_condicion[p]);
+                break;
+            }
+            if (i+1 == TRANSICIONES)
+            {
+                pthread_mutex_unlock(&monitor->entrada);
+                break;
+            }
+        }
     }
-
-    //mucho codigo
-
-    pthread_mutex_unlock(&monitor->entrada);
 }
 
 void monitor_init(monitor_t *monitor, procesador_petri_t *petri)
@@ -63,9 +81,3 @@ void vcondicion_init(variable_condicion_t *condicion, pthread_mutex_t *mutex)
     condicion->resume = vcondicion_resume;
     condicion->is_empty = vcondicion_is_empty;
 }
-
-
-
-
-
-
