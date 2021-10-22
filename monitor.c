@@ -6,36 +6,26 @@ int monitor_get_bloqueados(monitor_t *monitor, int d)
     return monitor->var_condicion[d].bloqueados;
 }
 
-void monitor_disparar(monitor_t *monitor, int disparo)
+void monitor_disparar2(monitor_t *monitor, int disparo)
 {
-    //try
     pthread_mutex_lock(&monitor->entrada);
-    while ( !monitor->petri->solicitud_disparo(monitor->petri, disparo) )
+
+    int k = monitor->petri->solicitud_disparo(monitor->petri, disparo);
+    if (k == 0) // 0 si no se pudo disparar
     {
-        monitor->var_condicion[disparo].delay(&monitor->var_condicion[disparo]);
-        //try
-        // TODO:ver el tema de los threads
-
+        printf("No Sensibilizada: %i -- espera\n", disparo);
+        pthread_cond_wait(&monitor->condition[disparo], &monitor->entrada);
+    } else
+    {
         monitor->petri->disparar(monitor->petri, disparo);
-
+        printf("Si sensibilizada: %i -- disparo\n",disparo);
+        monitor->petri->toString(monitor->petri);
         for (int i = 0; i < TRANSICIONES; ++i)
         {
-            //int d = monitor->politica.prioridad[i]; // inutil?
-            variable_condicion_t *vc = &monitor->var_condicion[monitor->politica.get_prioridad(&monitor->politica,i)];
-            if (vc->is_empty(vc))
-            {
-                int p = monitor->politica.get_prioridad(&monitor->politica, i);
-                monitor->politica.modificar_prioridad(&monitor->politica, i);
-                monitor->var_condicion[p].resume(&monitor->var_condicion[p]);
-                break;
-            }
-            if (i+1 == TRANSICIONES)
-            {
-                pthread_mutex_unlock(&monitor->entrada);
-                break;
-            }
+            pthread_cond_broadcast(&monitor->condition[i]);
         }
     }
+    pthread_mutex_unlock(&monitor->entrada);
 }
 
 void monitor_init(monitor_t *monitor, procesador_petri_t *petri)
@@ -44,11 +34,12 @@ void monitor_init(monitor_t *monitor, procesador_petri_t *petri)
     politica_init(&monitor->politica);
     for (int i = 0; i < TRANSICIONES; ++i)
     {
+        pthread_cond_init(&monitor->condition[i], NULL);
         vcondicion_init(&monitor->var_condicion[i], &monitor->entrada);
         monitor->politica.add_element(&monitor->politica,i);
     }
     monitor->petri = petri;
-    monitor->disparar = monitor_disparar;
+    monitor->disparar = monitor_disparar2;
     monitor->get_bloqueados = monitor_get_bloqueados;
 }
 

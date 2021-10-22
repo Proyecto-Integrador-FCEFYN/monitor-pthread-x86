@@ -20,6 +20,7 @@ struct monitor_t
 {
     pthread_mutex_t entrada;
     variable_condicion_t var_condicion[TRANSICIONES];
+    pthread_cond_t condition[TRANSICIONES];
     procesador_petri_t *petri;
     politica_t politica;
     void (*disparar)(monitor_t *monitor, int disparo);
