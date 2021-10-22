@@ -18,7 +18,7 @@ static void leer_linea(char arreglo[BUFFER_LINEA], long int marcado[PLAZAS])
     {
         marcado[i] = strtol(p, NULL, 0);
         p = strtok(NULL, ",");
-        printf("\nEntero es p=%li", marcado[i]);
+    //    printf("\nEntero es p=%li", marcado[i]);
         ++i;
     }
 }
@@ -34,10 +34,10 @@ void lector_de_matriz_leer(lector_de_matriz_t *lector,
     fgets(arreglo, sizeof arreglo, fptr);
     fclose(fptr);
 
-    printf("\nVector de estado leido");
+   // printf("\nVector de estado leido");
     leer_linea(arreglo, matriz_estado);
 
-    printf("\nMatriz leida, de a filas");
+   // printf("\nMatriz leida, de a filas");
     char matriz_char[PLAZAS][BUFFER_LINEA]; // entrada
 
     fptr = fopen(lector->path_matriz_incidencia,"r");
