@@ -26,10 +26,20 @@ static int petri_disparar(procesador_petri_t *petri, int disparo)
     else return 0;
 }
 
+void petri_toString(procesador_petri_t *petri)
+{
+    printf("MARCADO: ");
+    for (int i = 0; i < PLAZAS; ++i) {
+        printf("%li, ", petri->matriz_estado[i]);
+    }
+    printf("\n");
+}
+
 void procesador_de_petri_init(procesador_petri_t *petri)
 {
     petri->solicitud_disparo = petri_solicitud_disparo;
     petri->disparar = petri_disparar;
+    petri->toString = petri_toString;
 
     lector_de_matriz_t lector;
     lector_de_matriz_init(&lector,
