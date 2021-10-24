@@ -8,4 +8,6 @@
 #define PTHREAD_MONITOR_IA32_MACROS_H
 #define PLAZAS 8
 #define TRANSICIONES 6
+#define DEBUG 1
+#define LOG 0
 #endif //PTHREAD_MONITOR_IA32_MACROS_H
