@@ -11,20 +11,21 @@ void monitor_disparar2(monitor_t *monitor, int disparo)
     pthread_mutex_lock(&monitor->entrada);
 
     int k = monitor->petri->solicitud_disparo(monitor->petri, disparo);
-    if (k == 0) // 0 si no se pudo disparar
+//  if (k == 0) // 0 si no se pudo disparar
+    while (k == 0)
     {
         printf("No Sensibilizada: %i -- espera\n", disparo);
         pthread_cond_wait(&monitor->condition[disparo], &monitor->entrada);
-    } else
-    {
+        k = monitor->petri->solicitud_disparo(monitor->petri, disparo);
+    }
         monitor->petri->disparar(monitor->petri, disparo);
         printf("Si sensibilizada: %i -- disparo\n",disparo);
         monitor->petri->toString(monitor->petri);
         for (int i = 0; i < TRANSICIONES; ++i)
         {
-            pthread_cond_broadcast(&monitor->condition[i]);
+//            pthread_cond_broadcast(&monitor->condition[i]);
+              pthread_cond_signal(&monitor->condition[i]);
         }
-    }
     pthread_mutex_unlock(&monitor->entrada);
 }
 
