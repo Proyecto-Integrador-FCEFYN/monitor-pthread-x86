@@ -1,5 +1,20 @@
 #include "monitor.h"
+#include "macros.h"
 
+
+static int log(int disparo)
+{
+    FILE *f = fopen("../file.txt", "a" );
+    if (f == NULL)
+    {
+        printf("Error opening file!\n");
+        return -1;
+    }
+    fprintf(f,"%i\n", disparo);
+    printf("%i\n",disparo);
+    fclose(f);
+    return 1;
+}
 
 int monitor_get_bloqueados(monitor_t *monitor, int d)
 {
@@ -14,18 +29,25 @@ void monitor_disparar2(monitor_t *monitor, int disparo)
 //  if (k == 0) // 0 si no se pudo disparar
     while (k == 0)
     {
+#if DEBUG
         printf("No Sensibilizada: %i -- espera\n", disparo);
+#endif
         pthread_cond_wait(&monitor->condition[disparo], &monitor->entrada);
         k = monitor->petri->solicitud_disparo(monitor->petri, disparo);
     }
-        monitor->petri->disparar(monitor->petri, disparo);
-        printf("Si sensibilizada: %i -- disparo\n",disparo);
+    monitor->petri->disparar(monitor->petri, disparo);
+#if LOG
+    log(disparo);
+#endif
+#if DEBUG
+    printf("Si sensibilizada: %i -- disparo\n",disparo);
         monitor->petri->toString(monitor->petri);
-        for (int i = 0; i < TRANSICIONES; ++i)
-        {
+#endif
+    for (int i = 0; i < TRANSICIONES; ++i)
+    {
 //            pthread_cond_broadcast(&monitor->condition[i]);
-              pthread_cond_signal(&monitor->condition[i]);
-        }
+        pthread_cond_signal(&monitor->condition[i]);
+    }
     pthread_mutex_unlock(&monitor->entrada);
 }
 
@@ -47,10 +69,7 @@ void monitor_init(monitor_t *monitor, procesador_petri_t *petri)
 void vcondicion_delay(variable_condicion_t *condicion)
 {
     condicion->bloqueados++;
-    pthread_mutex_unlock(condicion->mutex);
-
     pthread_cond_wait(&condicion->var_condicion, condicion->mutex);
-    // ver manejo de errores.
 }
 void vcondicion_resume(variable_condicion_t *condicion)
 {

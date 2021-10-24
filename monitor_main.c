@@ -2,6 +2,7 @@
 #include "procesador_petri.h"
 #include "monitor.h"
 
+
 /// Esta funcion por ahora la usemos para probar los distintos metodos que
 /// vayamos implementando.
 /// \return
@@ -20,8 +21,13 @@ int main()
     pthread_t c[TRANSICIONES];
     pthread_attr_init(&atrib) ;
     pthread_attr_setscope(&atrib, PTHREAD_SCOPE_SYSTEM);
-    i=pthread_attr_setschedpolicy(&atrib, SCHED_RR);
-    printf("%d\n", i);
+    pthread_attr_setschedpolicy(&atrib, SCHED_RR);
+    int j;
+    j = sched_get_priority_max(SCHED_RR);
+    printf("PRIORIDAD MAX %i\n", j);
+    j = sched_get_priority_min(SCHED_RR);
+    printf("PRIORIDAD MIN %i\n", j);
+
 
     for (i=0;i<TRANSICIONES;i++)
     {
