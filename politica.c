@@ -8,8 +8,11 @@ static int politica_get_numero_elementos(politica_t *politica);
 void politica_init(politica_t *politica)
 {
     for (int i=0;i<CANT_VAR_COND;i++)
+    {
         politica->prioridad[i] = 0;
-    politica->element_count = 0;
+        politica_add_element(politica, i);
+    }
+//    politica->element_count = 0;
     politica->add_element = politica_add_element;
     politica->get_prioridad = politica_get_prioridad;
     politica->modificar_prioridad = politica_modificar_prioridad;

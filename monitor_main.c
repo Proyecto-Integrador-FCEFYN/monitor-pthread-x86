@@ -9,7 +9,7 @@
 
 _Noreturn void *tarea(void *arg);
 
-    monitor_t monitor;
+monitor_t monitor;
 int main()
 {
     procesador_petri_t petri;
@@ -45,6 +45,6 @@ _Noreturn void *tarea(void *arg)
     int miid = (int) arg;
     while (1)
     {
-    monitor.disparar(&monitor,miid);
+        monitor.disparar(&monitor,miid);
     }
 }

@@ -2,7 +2,7 @@
 #include "macros.h"
 
 
-static int log(int disparo)
+static int logueo(int disparo)
 {
     FILE *f = fopen("../file.txt", "a" );
     if (f == NULL)
@@ -32,7 +32,7 @@ void monitor_disparar2(monitor_t *monitor, int disparo)
     }
     monitor->petri->disparar(monitor->petri, disparo);
 #if LOG
-    log(disparo);
+    logueo(disparo);
 #endif
 #if DEBUG
     printf("Si sensibilizada: %i -- disparo\n",disparo);
