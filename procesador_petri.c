@@ -35,7 +35,7 @@ void petri_toString(procesador_petri_t *petri)
     printf("\n");
 }
 
-void procesador_de_petri_init(procesador_petri_t *petri)
+void procesador_de_petri_init2(procesador_petri_t *petri)
 {
     petri->solicitud_disparo = petri_solicitud_disparo;
     petri->disparar = petri_disparar;
@@ -46,4 +46,31 @@ void procesador_de_petri_init(procesador_petri_t *petri)
                           "../redes-de-petri/productor-consumidor/incidencia-prod-cons.csv",
                           "../redes-de-petri/productor-consumidor/marcado-prod-cons.csv");
     lector.leer(&lector, petri->matriz_estado, petri->matriz_incidencia);
+}
+void procesador_de_petri_init(procesador_petri_t *petri)
+{
+     petri->solicitud_disparo = petri_solicitud_disparo;
+    petri->disparar = petri_disparar;
+    petri->toString = petri_toString;
+
+    long int estado[PLAZAS] = {MARCADO};
+    for (int i =0; i<PLAZAS; i++)
+    {
+        petri->matriz_estado[i] = estado[i];
+    }
+    long int incidencia[PLAZAS][TRANSICIONES] = {INCIDENCIA};
+    for (int i = 0; i < PLAZAS; ++i) {
+        for (int j = 0; j <TRANSICIONES; ++j) {
+            petri->matriz_incidencia[i][j] = incidencia[i][j];
+        }
+    }
+
+//                .
+//        .{PLAZAS},
+//        {TRANSICIONES},
+//
+//        petri_solicitud_disparo,
+//        petri_disparar,
+//        petri_toString
+//    };
 }

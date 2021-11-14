@@ -42,9 +42,9 @@ int main()
 
 _Noreturn void *tarea(void *arg)
 {
-    int miid = (int) arg;
+    long int miid = (long int) arg;
     while (1)
     {
-        monitor.disparar(&monitor,miid);
+        monitor.disparar(&monitor,(int) miid);
     }
 }

@@ -6,15 +6,11 @@
 #define PTHREAD_MONITOR_IA32_LECTOR_DE_MATRIZ_H
 #endif //PTHREAD_MONITOR_IA32_LECTOR_DE_MATRIZ_H
 
-#ifndef PLAZAS
-#define PLAZAS 8
-#endif //PLAZAS
-#ifndef TRANSICIONES
-#define TRANSICIONES 6
-#endif //TRANSICIONES
+
 #define BUFFER_LINEA 3*PLAZAS+1
 
 #include <stdio.h>
+#include "macros.h"
 
 typedef struct lector_de_matriz_t lector_de_matriz_t;
 
